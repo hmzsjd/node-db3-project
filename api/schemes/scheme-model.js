@@ -179,7 +179,10 @@ async function addStep(scheme_id, step) { // EXERCISE E
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
-    return "foo"
+    step.scheme_id = scheme_id;
+    await db('steps').insert(step);
+    return await findSteps(scheme_id);
+
 }
 
 module.exports = {
