@@ -102,8 +102,18 @@ async function findById(scheme_id) { // EXERCISE B
     .where('sc.scheme_id', scheme_id)
     .orderBy('st.step_number', 'asc')
 
+    const result = {
+      scheme_id: rows[0].scheme_id,
+      scheme_name: rows[0].scheme_name,
+      steps: rows.reduce((steps, step) => {
+        if (!step.step_id) return steps
+        const {step_id, step_number, instructions} = step
+        return steps.concat({step_id, step_number, instructions})
+      }, [])
+    }
+
     
-    return rows;
+    return result;
 }
 
 async function findSteps(scheme_id) { // EXERCISE C
