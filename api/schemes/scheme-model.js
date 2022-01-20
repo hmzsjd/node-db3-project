@@ -32,14 +32,7 @@ async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
-      SELECT
-          sc.scheme_name,
-          st.*
-      FROM schemes as sc
-      LEFT JOIN steps as st
-          ON sc.scheme_id = st.scheme_id
-      WHERE sc.scheme_id = 1
-      ORDER BY st.step_number ASC;
+      
 
     2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
@@ -93,8 +86,24 @@ async function findById(scheme_id) { // EXERCISE B
         "scheme_name": "Have Fun!",
         "steps": []
       }
+
+      SELECT
+          sc.scheme_name,
+          st.*
+      FROM schemes as sc
+      LEFT JOIN steps as st
+          ON sc.scheme_id = st.scheme_id
+      WHERE sc.scheme_id = 1
+      ORDER BY st.step_number ASC;
   */
-      return "foo"
+    const rows = await db('schemes as sc')
+    .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+    .select('sc.scheme_name', 'st.*')
+    .where('sc.scheme_id', scheme_id)
+    .orderBy('st.step_number', 'asc')
+
+    
+    return rows;
 }
 
 async function findSteps(scheme_id) { // EXERCISE C
