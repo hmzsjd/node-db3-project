@@ -1,5 +1,5 @@
 /*
-  If `scheme_id` does not exist in the database:
+  If `scheme_id` does not exist in the database :
 
   status 404
   {
