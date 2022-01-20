@@ -1,3 +1,4 @@
+const e = require("express");
 const db = require("../../data/db-config");
 
 async function find() { // EXERCISE A
@@ -136,9 +137,28 @@ async function findSteps(scheme_id) { // EXERCISE C
           "scheme_name": "Get Rich Quick"
         }
       ]
-  */
 
-      return "foo"
+      select
+    st.step_id, st.step_number,
+    st.instructions, sc.scheme_name
+  FROM schemes as sc
+  LEFT JOIN steps as st
+    ON sc.scheme_id = st.scheme_id
+    WHERE sc.scheme_id = 3
+    ORDER BY st.step_number ASC
+  */
+    const rows = await db('schemes as sc')
+    .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+    .select('st.step_id', 'st.step_number',
+     'st.instructions', 'sc.scheme_name')
+    .where('sc.scheme_id', scheme_id)
+    .orderBy('st.step_number', 'asc')
+
+    if(!rows[0].step_id) {
+      return [];
+    } else {
+      return rows;
+    }
 }
 
 async function add(scheme) { // EXERCISE D
